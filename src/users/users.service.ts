@@ -16,4 +16,12 @@ export class UsersService {
     async getAllUsers (): Promise<User[]> {
         return this.userModel.find().exec();
     }
+
+    async updateUserOnVehicleCreation(vehicle: any) {
+        console.log('Updating user on vehicle creation:', vehicle);
+    }
+
+    async updateUserOnVehicleFind(vehicle: any) {
+        console.log('Updating user on vehicle find:', vehicle);
+    }
 }

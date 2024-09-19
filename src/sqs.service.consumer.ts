@@ -1,12 +1,13 @@
 import { DeleteMessageCommand, ReceiveMessageCommand, SQSClient } from '@aws-sdk/client-sqs';
 import { Injectable, OnModuleInit } from '@nestjs/common';
+import { UsersService } from './users/users.service';
 
 @Injectable()
 export class SqsConsumer implements OnModuleInit {
   private sqsClient: SQSClient;
   private queueUrl: string = 'https://sqs.us-east-1.amazonaws.com/376129868845/my-queue-app';
 
-  constructor() {
+  constructor(private readonly userServices: UsersService) {
     this.sqsClient = new SQSClient({
       region: 'us-east-1',
     });
@@ -60,9 +61,11 @@ export class SqsConsumer implements OnModuleInit {
 
   async processMessage(messageBody: any) {
     if (messageBody.action === 'create') {
+        await this.userServices.updateUserOnVehicleCreation(messageBody.vehicle)
       console.log('Vehicle created:', messageBody.vehicle);
 
     } else if (messageBody.action === 'find') {
+        await this.userServices.updateUserOnVehicleFind(messageBody.vehicle)
       console.log('Vehicle found:', messageBody.vehicle);
 
     } else {
