@@ -22,7 +22,7 @@ export class SqsConsumer implements OnModuleInit {
     console.log('Starting to poll messages from SQS...');
     while (true) {
       await this.receiveMessages();
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise(resolve => setTimeout(resolve, 11000));
     }
   }
 
